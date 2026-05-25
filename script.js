@@ -251,6 +251,8 @@ async function initializeLIFF() {
             const foodContainer =
                 document.getElementById("food-container");
 
+            console.log(foodContainer);
+
             foodContainer.innerHTML = "";
 
             foods.forEach((food) => {
@@ -283,5 +285,7 @@ async function initializeLIFF() {
         }
 
 initializeLIFF();
+
+console.log("CALL RENDER");
 
 renderFoods();
