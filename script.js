@@ -98,51 +98,49 @@ function renderCart() {
     totalPrice.innerText = total;
 }
 
-// =====================
-// CHECKOUT
-// =====================
+    // =====================
+    // CHECKOUT
+    // =====================
 
-async function checkout() {
+    async function checkout() {
 
-    if (cart.length === 0) {
+        console.log(cart);
 
-        alert("กรุณาเลือกอาหารก่อน");
+        if (cart.length === 0) {
 
-        return;
-    }
+            alert("กรุณาเลือกอาหารก่อน");
 
-    let orderMessage =
-        "🛒 ออเดอร์ใหม่\n\n";
+            return;
+        }
 
-    let total = 0;
+        let orderMessage =
+            "🛒 ออเดอร์ใหม่\n\n";
 
-    cart.forEach((item) => {
+        let total = 0;
+
+        cart.forEach((item) => {
+
+            orderMessage +=
+                `${item.name}\n`;
+
+            orderMessage +=
+                `จำนวน: ${item.quantity}\n`;
+
+            orderMessage +=
+                `รวม: ${
+                    item.price * item.quantity
+                } บาท\n\n`;
+
+            total +=
+                item.price * item.quantity;
+        });
 
         orderMessage +=
-            `🍛 ${item.name}\n`;
+            `💰 ราคารวม ${total} บาท`;
 
-        orderMessage +=
-            `🌶 ${item.spicy}\n`;
+        console.log(orderMessage);
 
-        orderMessage +=
-            `🍳 ${item.toppings.join(", ")}\n`;
-
-        orderMessage +=
-            `จำนวน: ${item.quantity}\n`;
-
-        orderMessage +=
-            `รวม: ${
-                item.price * item.quantity
-            } บาท\n\n`;
-
-        total +=
-            item.price * item.quantity;
-    });
-
-    orderMessage +=
-        `💰 ราคารวม ${total} บาท`;
-
-    console.log(orderMessage);
+        alert(orderMessage);
 
     try {
 
