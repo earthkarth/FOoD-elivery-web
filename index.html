@@ -352,6 +352,45 @@
             orderMessage +=
                 `💰 ราคารวม ${total} บาท`;
 
+            try {
+
+                await fetch(
+
+                    "https://script.google.com/macros/s/AKfycbyMtB7I8sE_oxiJZmRSzCkwEuMYn2ppq-m_Qnaz6ocq4f-6AUAFWgVmOk3xlm3uHwdh/exec",
+
+                    {
+
+                        method: "POST",
+
+                        mode: "no-cors",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            message: orderMessage
+                        })
+                    }
+                );
+
+                alert("ส่งออเดอร์เรียบร้อย 🎉");
+
+                cart = [];
+
+                renderCart();
+
+            } catch(error) {
+
+                console.error(error);
+
+                alert("เกิดข้อผิดพลาด");
+            }
+        }
+
             // ส่งข้อมูลไป Apps Script
             await fetch(
 
@@ -360,6 +399,8 @@
                 {
 
                     method: "POST",
+
+                    mode: "no-cors",
 
                     headers: {
 
@@ -373,13 +414,6 @@
                     })
                 }
             );
-
-            alert("ส่งออเดอร์เรียบร้อย 🎉");
-
-            cart = [];
-
-            renderCart();
-        }
 
         // =========================
         // LIFF LOGIN
