@@ -10,52 +10,20 @@ let cart = [];
 // เพิ่มสินค้า
 // =====================
 
-function addToCart() {
+function addToCart(foodId) {
 
-    let basePrice = 80;
+    // หาเมนูจาก foods[]
+    const food =
+        foods.find((item) => {
 
-    let toppings = [];
+            return item.id === foodId;
+        });
 
-    let extraPrice = 0;
-
-    const spicyLevel =
-        document.getElementById("spicy-level").value;
-
-    // ไข่ดาว
-    if (
-        document.getElementById("egg").checked
-    ) {
-
-        toppings.push("ไข่ดาว");
-
-        extraPrice += 15;
-    }
-
-    // ชีส
-    if (
-        document.getElementById("cheese").checked
-    ) {
-
-        toppings.push("ชีส");
-
-        extraPrice += 20;
-    }
-
-    const finalPrice =
-        basePrice + extraPrice;
-
-    // หาเมนูเดิม
+    // หาเมนูเดิมใน cart
     const existingItem =
         cart.find((item) => {
 
-            return (
-
-                item.spicy === spicyLevel &&
-
-                JSON.stringify(item.toppings)
-                === JSON.stringify(toppings)
-
-            );
+            return item.id === food.id;
         });
 
     // ถ้ามีแล้ว
@@ -67,13 +35,11 @@ function addToCart() {
 
         cart.push({
 
-            name: "ข้าวกะเพราหมูกรอบ",
+            id: food.id,
 
-            spicy: spicyLevel,
+            name: food.name,
 
-            toppings: toppings,
-
-            price: finalPrice,
+            price: food.price,
 
             quantity: 1
         });
@@ -81,6 +47,7 @@ function addToCart() {
 
     renderCart();
 }
+
 
 // =====================
 // แสดงตะกร้า
@@ -248,5 +215,70 @@ async function initializeLIFF() {
         console.error(error);
     }
 }
+
+    const foods = [
+
+        {
+            id: 1,
+            name: "ข้าวกะเพราหมูกรอบ",
+            category: "อาหารจานหลัก",
+            price: 80,
+            image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop"
+        },
+
+        {
+            id: 2,
+            name: "ผัดซีอิ๊ว",
+            category: "อาหารจานหลัก",
+            price: 70,
+            image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1200&auto=format&fit=crop"
+        },
+
+        {
+            id: 3,
+            name: "ชาไทย",
+            category: "เครื่องดื่ม",
+            price: 45,
+            image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?q=80&w=1200&auto=format&fit=crop"
+        }
+
+    ];
+        function renderFoods() {
+
+            const foodContainer =
+                document.getElementById("food-container");
+
+            foodContainer.innerHTML = "";
+
+            foods.forEach((food) => {
+
+                foodContainer.innerHTML += `
+
+                    <div class="food-card">
+
+                        <img
+                            src="${food.image}"
+                            width="300"
+                        >
+
+                        <h2>${food.name}</h2>
+
+                        <p>
+                            ราคา ${food.price} บาท
+                        </p>
+
+                        <button onclick="addToCart(${food.id})">
+
+                            เพิ่มลงตะกร้า
+
+                        </button>
+
+                    </div>
+
+                `;
+            });
+        }
+        
+        renderFoods();
 
 initializeLIFF();
