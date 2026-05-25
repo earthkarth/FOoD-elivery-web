@@ -140,26 +140,23 @@ function renderCart() {
 
             try {
 
-                await fetch(
+        await fetch(
 
-                    "https://script.google.com/macros/s/AKfycbxdmMy9J1qJcMxoJYZYv1V9en2ixGxWFXaR-Z0mpocbTvUAtEhR9rKM3J7jGYa8XJcf2w/exec",
+            "https://script.google.com/macros/s/AKfycbxdmMy9J1qJcMxoJYZYv1V9en2ixGxWFXaR-Z0mpocbTvUAtEhR9rKM3J7jGYa8XJcf2w/exec",
 
-                    {
+            {
 
-                        method: "POST",
+                method: "POST",
 
-                        headers: {
+                mode: "no-cors",
 
-                            "Content-Type":
-                                "application/json"
-                        },
+                body:
+                    new URLSearchParams({
 
-                        body: JSON.stringify({
-
-                            message: orderMessage
-                        })
-                    }
-                );
+                        message: orderMessage
+                    })
+            }
+        );
 
                 alert("ส่งออเดอร์เรียบร้อย 🎉");
 
