@@ -142,7 +142,7 @@ function renderCart() {
 
         await fetch(
 
-            "https://script.google.com/macros/s/AKfycbxdmMy9J1qJcMxoJYZYv1V9en2ixGxWFXaR-Z0mpocbTvUAtEhR9rKM3J7jGYa8XJcf2w/exec",
+            "https://script.google.com/macros/s/AKfycbzHFRyN-zyFLIDAPqSBa9rLOOTDEj6ym71N7pG4LecIpc4-hZ80zptWzWQmyB786RK1Sw/exec",
 
             {
 
