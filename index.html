@@ -1,114 +1,35 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>FOoDelivery</title>
 
-    <style>
-
-        body {
-
-            font-family: sans-serif;
-            background: #f5f5f5;
-            padding: 40px;
-        }
-
-        h1 {
-
-            color: orange;
-        }
-
-        .container {
-
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .food-card,
-        .cart {
-
-            background: white;
-
-            padding: 20px;
-
-            border-radius: 20px;
-
-            width: 320px;
-
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .food-card img {
-
-            border-radius: 12px;
-        }
-
-        button {
-
-            background: orange;
-
-            color: white;
-
-            border: none;
-
-            padding: 12px 20px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
-
-            width: 100%;
-
-            font-size: 16px;
-        }
-
-        .cart-item {
-
-            border-bottom: 1px solid #ddd;
-
-            padding: 10px 0;
-        }
-
-        .total {
-
-            font-size: 24px;
-
-            font-weight: bold;
-
-            color: green;
-
-            margin-top: 20px;
-        }
-
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
-              <h1 style="color:red;">
-              TEST NEW VERSION
-              </h1>
-    <h1>
-        🍛 ร้านตามสั่ง By ครัวหลังบ้าน
-    </h1>
+
+    <h1>🍛 ร้านตามสั่ง By ครัวหลังบ้าน</h1>
 
     <p>
-
         👋 สวัสดี
-        <span id="username">Guest</span>
-
+        <span id="username">
+            Guest
+        </span>
     </p>
 
     <div class="container">
 
-        <!-- FOOD -->
+        <!-- FOOD CARD -->
         <div class="food-card">
 
             <img
@@ -116,17 +37,11 @@
                 width="300"
             >
 
-            <h2>
-                ข้าวกะเพราหมูกรอบ
-            </h2>
+            <h2>ข้าวกะเพราหมูกรอบ</h2>
 
-            <p>
-                ราคา 80 บาท
-            </p>
+            <p>ราคา 80 บาท</p>
 
-            <h3>
-                🌶 ระดับความเผ็ด
-            </h3>
+            <h3>🌶 ระดับความเผ็ด</h3>
 
             <select id="spicy-level">
 
@@ -137,9 +52,7 @@
 
             </select>
 
-            <h3>
-                🍳 เพิ่มท็อปปิ้ง
-            </h3>
+            <h3>🍳 เพิ่มท็อปปิ้ง</h3>
 
             <label>
 
@@ -162,9 +75,7 @@
             <br><br>
 
             <button onclick="addToCart()">
-
                 เพิ่มลงตะกร้า
-
             </button>
 
         </div>
@@ -172,9 +83,7 @@
         <!-- CART -->
         <div class="cart">
 
-            <h2>
-                🛒 ตะกร้าสินค้า
-            </h2>
+            <h2>🛒 ตะกร้าสินค้า</h2>
 
             <div id="cart-items"></div>
 
@@ -189,256 +98,18 @@
             <br>
 
             <button onclick="checkout()">
-
                 ✅ ยืนยันออเดอร์
-
             </button>
 
         </div>
 
     </div>
 
-    <!-- LIFF -->
+    <!-- LIFF SDK -->
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-    <script>
-        let cart = [];
-        function addToCart() {
-
-            let basePrice = 80;
-
-            let toppings = [];
-
-            let extraPrice = 0;
-
-            const spicyLevel =
-                document.getElementById("spicy-level").value;
-
-            if (
-                document.getElementById("egg").checked
-            ) {
-
-                toppings.push("ไข่ดาว");
-
-                extraPrice += 15;
-            }
-
-            if (
-                document.getElementById("cheese").checked
-            ) {
-
-                toppings.push("ชีส");
-
-                extraPrice += 20;
-            }
-
-            const finalPrice =
-                basePrice + extraPrice;
-
-            const existingItem =
-                cart.find((item) => {
-
-                    return (
-
-                        item.spicy === spicyLevel &&
-
-                        JSON.stringify(item.toppings)
-                        === JSON.stringify(toppings)
-
-                    );
-
-                });
-
-            if (existingItem) {
-
-                existingItem.quantity += 1;
-
-            } else {
-
-                cart.push({
-
-                    name: "ข้าวกะเพราหมูกรอบ",
-
-                    spicy: spicyLevel,
-
-                    toppings: toppings,
-
-                    price: finalPrice,
-
-                    quantity: 1
-                });
-            }
-
-            renderCart();
-        }
-
-        function renderCart() {
-
-            const cartItems =
-                document.getElementById("cart-items");
-
-            const totalPrice =
-                document.getElementById("total-price");
-
-            cartItems.innerHTML = "";
-
-            let total = 0;
-
-            cart.forEach((item) => {
-
-                total +=
-                    item.price * item.quantity;
-
-                cartItems.innerHTML += `
-
-                    <div class="cart-item">
-
-                        <h3>${item.name}</h3>
-
-                        <p>
-                            🌶 ${item.spicy}
-                        </p>
-
-                        <p>
-                            🍳 ${item.toppings.join(", ")}
-                        </p>
-
-                        <p>
-                            ${item.price} บาท ×
-                            ${item.quantity}
-                        </p>
-
-                    </div>
-                `;
-            });
-
-            totalPrice.innerText = total;
-        }
-
-            async function checkout() {
-
-                console.log("CHECKOUT START");
-
-                if (cart.length === 0) {
-
-                    alert("กรุณาเลือกอาหารก่อน");
-
-                    return;
-                }
-
-                let orderMessage =
-                    "🛒 ออเดอร์ใหม่\n\n";
-
-                let total = 0;
-
-                cart.forEach((item) => {
-
-                    orderMessage +=
-                        `🍛 ${item.name}\n`;
-
-                    orderMessage +=
-                        `🌶 ${item.spicy}\n`;
-
-                    orderMessage +=
-                        `🍳 ${item.toppings.join(", ")}\n`;
-
-                    orderMessage +=
-                        `จำนวน: ${item.quantity}\n`;
-
-                    orderMessage +=
-                        `รวม: ${
-                            item.price * item.quantity
-                        } บาท\n\n`;
-
-                    total +=
-                        item.price * item.quantity;
-                });
-
-                orderMessage +=
-                    `💰 ราคารวม ${total} บาท`;
-
-                console.log(orderMessage);
-
-                try {
-
-                    const response = await fetch(
-
-                        "https://script.google.com/macros/s/AKfycbzpdgYPXwcq6T5g3dTPd-1w0OTQ3s_HoH5vxlLkzZpNpNtn9pel4wNTRotJcWKnKUDMAw/exec",
-
-                        {
-
-                            method: "POST",
-
-                            mode: "no-cors",
-
-                            headers: {
-
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-
-                                message: orderMessage
-                            })
-                        }
-                    );
-
-                    console.log("SEND SUCCESS");
-
-                    alert("ส่งออเดอร์เรียบร้อย 🎉");
-
-                    cart = [];
-
-                    renderCart();
-
-                } catch(error) {
-
-                    console.error(error);
-
-                    alert("ส่งไม่สำเร็จ");
-                }
-            }
-
-        async function initializeLIFF() {
-
-            try {
-
-                await liff.init({
-
-                    liffId:
-                        "2010184903-PSIDCmFU"
-                });
-
-                if (!liff.isLoggedIn()) {
-
-                    liff.login();
-
-                    return;
-                }
-
-                const profile =
-                    await liff.getProfile();
-
-                console.log(profile);
-
-                // แสดงชื่อผู้ใช้
-                document.getElementById("username")
-                    .innerText =
-                    profile.displayName;
-
-                // แสดง USER ID ใน Console
-                console.log(profile.userId);
-
-            } catch(error) {
-
-                console.error(error);
-            }
-        }
-
-        initializeLIFF();
-
-    </script>
+    <!-- JS -->
+    <script src="script.js"></script>
 
 </body>
 </html>
