@@ -243,7 +243,10 @@ async function initializeLIFF() {
         }
 
     ];
+
         function renderFoods() {
+
+            console.log("renderFoods working");
 
             const foodContainer =
                 document.getElementById("food-container");
