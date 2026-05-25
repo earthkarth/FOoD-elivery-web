@@ -1,460 +1,419 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Food Delivery</title>
+    <title>FOoDelivery</title>
 
-  <style>
+    <style>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        body {
+            font-family: sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+        }
 
-    body {
-      font-family: sans-serif;
-      background: #f5f5f5;
-      padding: 40px;
-    }
+        h1 {
+            color: orange;
+        }
 
-    h1 {
-      color: orange;
-      margin-bottom: 10px;
-    }
+        .container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
 
-    p {
-      margin-bottom: 10px;
-    }
+        .food-card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            width: 320px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-    .container {
-      display: flex;
-      gap: 30px;
-      align-items: flex-start;
-      flex-wrap: wrap;
-    }
+        .food-card img {
+            border-radius: 12px;
+        }
 
-    .food-card {
-      background: white;
-      padding: 20px;
-      border-radius: 20px;
-      width: 350px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+        button {
+            background: orange;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
 
-    .food-card img {
-      width: 100%;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
+        button:hover {
+            opacity: 0.9;
+        }
 
-    select {
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      margin-bottom: 15px;
-    }
+        .cart {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            width: 320px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
 
-    button {
-      background: orange;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 10px;
-      font-size: 16px;
-    }
+        .total {
+            font-size: 24px;
+            font-weight: bold;
+            color: green;
+            margin-top: 20px;
+        }
 
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .cart {
-      background: white;
-      padding: 20px;
-      border-radius: 20px;
-      width: 350px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .cart-item {
-      border-bottom: 1px solid #ddd;
-      padding: 15px 0;
-    }
-
-    .cart-item h3 {
-      margin-bottom: 10px;
-    }
-
-    .quantity-control {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-
-    .quantity-control button {
-      margin-top: 0;
-      padding: 8px 15px;
-    }
-
-    .total {
-      font-size: 24px;
-      font-weight: bold;
-      color: green;
-      margin-top: 20px;
-    }
-
-    .empty-cart {
-      color: #999;
-      margin-top: 15px;
-    }
-
-    @media(max-width: 768px) {
-
-      body {
-        padding: 20px;
-      }
-
-      .food-card,
-      .cart {
-        width: 100%;
-      }
-
-    }
-
-  </style>
+    </style>
 </head>
 
 <body>
 
     <h1>🍛 ร้านตามสั่ง By ครัวหลังบ้าน</h1>
 
-        <p>
-            👋 สวัสดี
-            <span id="username"></span>
-        </p>
+    <p>
+        👋 สวัสดี
+        <span id="username"></span>
+    </p>
 
-        <p>
-            บริการสั่งอาหารออนไลน์
-        </p>
+    <p>บริการสั่งอาหารออนไลน์</p>
 
-  <div class="container">
+    <div class="container">
 
-    <!-- FOOD CARD -->
-    <div class="food-card">
+        <!-- FOOD CARD -->
+        <div class="food-card">
 
-      <img
-        src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop"
-      />
+            <img
+                src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop"
+                width="300"
+            >
 
-      <h2>ข้าวกะเพราหมูกรอบ</h2>
+            <h2>ข้าวกะเพราหมูกรอบ</h2>
 
-      <p>ราคาเริ่มต้น 80 บาท</p>
+            <p>ราคา 80 บาท</p>
 
-      <!-- SPICY -->
-      <h3>🌶 ระดับความเผ็ด</h3>
+            <h3>🌶 ระดับความเผ็ด</h3>
 
-      <select id="spicy-level">
+            <select id="spicy-level">
 
-        <option>ไม่เผ็ด</option>
-        <option>เผ็ดน้อย</option>
-        <option>เผ็ดกลาง</option>
-        <option>เผ็ดมาก</option>
+                <option>ไม่เผ็ด</option>
+                <option>เผ็ดน้อย</option>
+                <option>เผ็ดกลาง</option>
+                <option>เผ็ดมาก</option>
 
-      </select>
+            </select>
 
-      <!-- TOPPING -->
-      <h3>🍳 เพิ่มท็อปปิ้ง</h3>
+            <h3>🍳 เพิ่มท็อปปิ้ง</h3>
 
-      <label>
-        <input type="checkbox" id="egg">
-        ไข่ดาว +15 บาท
-      </label>
+            <label>
 
-      <label>
-        <input type="checkbox" id="cheese">
-        ชีส +20 บาท
-      </label>
+                <input type="checkbox" id="egg">
 
-      <!-- BUTTON -->
-      <button onclick="addToCart()">
-        เพิ่มลงตะกร้า
-      </button>
+                ไข่ดาว +15 บาท
 
-    </div>
+            </label>
 
-    <!-- CART -->
-    <div class="cart">
+            <br><br>
 
-      <h2>🛒 ตะกร้าสินค้า</h2>
+            <label>
 
-      <div id="cart-items">
+                <input type="checkbox" id="cheese">
 
-        <p class="empty-cart">
-          ยังไม่มีสินค้าในตะกร้า
-        </p>
+                ชีส +20 บาท
 
-      </div>
+            </label>
 
-      <div class="total">
+            <br><br>
 
-        รวม:
-        <span id="total-price">0</span>
-        บาท
+            <button onclick="addToCart()">
+                เพิ่มลงตะกร้า
+            </button>
 
-      </div>
+        </div>
 
-    </div>
+        <!-- CART -->
+        <div class="cart">
 
-  </div>
+            <h2>🛒 ตะกร้าสินค้า</h2>
 
-  <script>
+            <div id="cart-items"></div>
 
-    // เก็บข้อมูลตะกร้า
-    let cart = [];
+            <div class="total">
 
-    // เพิ่มสินค้า
-    function addToCart() {
-
-      let basePrice = 80;
-
-      let toppings = [];
-
-      let extraPrice = 0;
-
-      // ระดับความเผ็ด
-      const spicyLevel =
-        document.getElementById("spicy-level").value;
-
-      // เช็คไข่ดาว
-      const egg =
-        document.getElementById("egg").checked;
-
-      if (egg) {
-
-        toppings.push("ไข่ดาว");
-
-        extraPrice += 15;
-      }
-
-      // เช็คชีส
-      const cheese =
-        document.getElementById("cheese").checked;
-
-      if (cheese) {
-
-        toppings.push("ชีส");
-
-        extraPrice += 20;
-      }
-
-      // ราคาสุดท้าย
-      const finalPrice =
-        basePrice + extraPrice;
-
-      // หาเมนูเดิม
-      const existingItem = cart.find((item) => {
-
-        return (
-
-          item.name === "ข้าวกะเพราหมูกรอบ" &&
-
-          item.spicy === spicyLevel &&
-
-          JSON.stringify(item.toppings)
-          === JSON.stringify(toppings)
-
-        );
-
-      });
-
-      // ถ้ามีเมนูเดิม
-      if (existingItem) {
-
-        existingItem.quantity += 1;
-
-      } else {
-
-        // สร้างสินค้าใหม่
-        const food = {
-
-          name: "ข้าวกะเพราหมูกรอบ",
-
-          spicy: spicyLevel,
-
-          toppings: toppings,
-
-          price: finalPrice,
-
-          quantity: 1
-        };
-
-        cart.push(food);
-      }
-
-      renderCart();
-
-      resetForm();
-    }
-
-    // แสดงตะกร้า
-    function renderCart() {
-
-      const cartItems =
-        document.getElementById("cart-items");
-
-      const totalPrice =
-        document.getElementById("total-price");
-
-      // ถ้าไม่มีสินค้า
-      if (cart.length === 0) {
-
-        cartItems.innerHTML = `
-          <p class="empty-cart">
-            ยังไม่มีสินค้าในตะกร้า
-          </p>
-        `;
-
-        totalPrice.innerText = 0;
-
-        return;
-      }
-
-      // ล้างข้อมูลเก่า
-      cartItems.innerHTML = "";
-
-      let total = 0;
-
-      // วนลูปสินค้า
-      cart.forEach((item, index) => {
-
-        total += item.price * item.quantity;
-
-        cartItems.innerHTML += `
-
-          <div class="cart-item">
-
-            <h3>${item.name}</h3>
-
-            <p>
-              🌶 ${item.spicy}
-            </p>
-
-            <p>
-              🍳 ${
-                item.toppings.length > 0
-                ? item.toppings.join(", ")
-                : "ไม่มี"
-              }
-            </p>
-
-            <div class="quantity-control">
-
-              <button onclick="decreaseQuantity(${index})">
-                -
-              </button>
-
-              <span>
-                ${item.quantity}
-              </span>
-
-              <button onclick="increaseQuantity(${index})">
-                +
-              </button>
+                รวม:
+                <span id="total-price">0</span>
+                บาท
 
             </div>
 
-            <p>
-              รวม ${item.price * item.quantity} บาท
-            </p>
+            <br>
 
-          </div>
+            <button onclick="checkout()">
+                ✅ ยืนยันออเดอร์
+            </button>
 
-        `;
+        </div>
 
-      });
+    </div>
 
-      // แสดงราคารวม
-      totalPrice.innerText = total;
-    }
+    <!-- LIFF SDK -->
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-    // เพิ่มจำนวน
-    function increaseQuantity(index) {
+    <script>
 
-      cart[index].quantity += 1;
+        // =========================
+        // CART
+        // =========================
 
-      renderCart();
-    }
+        let cart = [];
 
-    // ลดจำนวน
-    function decreaseQuantity(index) {
+        // =========================
+        // เพิ่มสินค้า
+        // =========================
 
-      cart[index].quantity -= 1;
+        function addToCart() {
 
-      // ถ้าเหลือ 0 ให้ลบ
-      if (cart[index].quantity <= 0) {
+            let basePrice = 80;
 
-        cart.splice(index, 1);
-      }
+            let toppings = [];
 
-      renderCart();
-    }
+            let extraPrice = 0;
 
-    // รีเซ็ตฟอร์ม
-    function resetForm() {
+            // ระดับความเผ็ด
+            const spicyLevel =
+                document.getElementById("spicy-level").value;
 
-      document.getElementById("spicy-level")
-        .selectedIndex = 0;
+            // ไข่ดาว
+            const egg =
+                document.getElementById("egg").checked;
 
-      document.getElementById("egg")
-        .checked = false;
+            if (egg) {
 
-      document.getElementById("cheese")
-        .checked = false;
-    }
+                toppings.push("ไข่ดาว");
 
-  </script>
+                extraPrice += 15;
+            }
 
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js">
-    </script>
+            // ชีส
+            const cheese =
+                document.getElementById("cheese").checked;
 
-        <script>
-            async function initializeLIFF() {
+            if (cheese) {
 
-            await liff.init({
-                liffId: 2010184903-PSIDCmFU
+                toppings.push("ชีส");
+
+                extraPrice += 20;
+            }
+
+            // ราคาสุดท้าย
+            const finalPrice =
+                basePrice + extraPrice;
+
+            // หาเมนูเดิม
+            const existingItem =
+                cart.find((item) => {
+
+                    return (
+
+                        item.name === "ข้าวกะเพราหมูกรอบ" &&
+
+                        item.spicy === spicyLevel &&
+
+                        JSON.stringify(item.toppings)
+                        === JSON.stringify(toppings)
+
+                    );
+
+                });
+
+            // ถ้ามีเมนูเดิม
+            if (existingItem) {
+
+                existingItem.quantity += 1;
+
+            } else {
+
+                const food = {
+
+                    name: "ข้าวกะเพราหมูกรอบ",
+
+                    spicy: spicyLevel,
+
+                    toppings: toppings,
+
+                    price: finalPrice,
+
+                    quantity: 1
+                };
+
+                cart.push(food);
+            }
+
+            renderCart();
+        }
+
+        // =========================
+        // แสดงตะกร้า
+        // =========================
+
+        function renderCart() {
+
+            const cartItems =
+                document.getElementById("cart-items");
+
+            const totalPrice =
+                document.getElementById("total-price");
+
+            cartItems.innerHTML = "";
+
+            let total = 0;
+
+            // วนลูปสินค้า
+            cart.forEach((item) => {
+
+                total +=
+                    item.price * item.quantity;
+
+                cartItems.innerHTML += `
+
+                    <div class="cart-item">
+
+                        <h3>${item.name}</h3>
+
+                        <p>
+                            🌶 ${item.spicy}
+                        </p>
+
+                        <p>
+                            🍳 ${item.toppings.join(", ")}
+                        </p>
+
+                        <p>
+                            ${item.price} บาท ×
+                            ${item.quantity}
+                        </p>
+
+                    </div>
+
+                `;
             });
 
-            // ถ้ายังไม่ได้ login
+            totalPrice.innerText = total;
+        }
+
+        // =========================
+        // CHECKOUT
+        // =========================
+
+        async function checkout() {
+
+            if (cart.length === 0) {
+
+                alert("กรุณาเลือกอาหารก่อน");
+
+                return;
+            }
+
+            let orderMessage =
+                "🛒 ออเดอร์ใหม่\n\n";
+
+            let total = 0;
+
+            cart.forEach((item) => {
+
+                orderMessage +=
+                    `${item.name}\n`;
+
+                orderMessage +=
+                    `🌶 ${item.spicy}\n`;
+
+                orderMessage +=
+                    `🍳 ${item.toppings.join(", ")}\n`;
+
+                orderMessage +=
+                    `จำนวน: ${item.quantity}\n`;
+
+                orderMessage +=
+                    `รวม: ${
+                        item.price * item.quantity
+                    } บาท\n\n`;
+
+                total +=
+                    item.price * item.quantity;
+            });
+
+            orderMessage +=
+                `💰 ราคารวม ${total} บาท`;
+
+            // ส่งข้อมูลไป Apps Script
+            await fetch(
+
+                "https://script.google.com/macros/s/AKfycbyMtB7I8sE_oxiJZmRSzCkwEuMYn2ppq-m_Qnaz6ocq4f-6AUAFWgVmOk3xlm3uHwdh/exec",
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        message: orderMessage
+                    })
+                }
+            );
+
+            alert("ส่งออเดอร์เรียบร้อย 🎉");
+
+            cart = [];
+
+            renderCart();
+        }
+
+        // =========================
+        // LIFF LOGIN
+        // =========================
+
+        async function initializeLIFF() {
+
+            await liff.init({
+
+                liffId:
+                    "2010184903-PSIDCmFU"
+            });
+
+            // ถ้ายังไม่ login
             if (!liff.isLoggedIn()) {
 
                 liff.login();
-
             }
 
             // ดึงข้อมูล user
-            const profile = await liff.getProfile();
+            const profile =
+                await liff.getProfile();
 
             console.log(profile);
 
-            // แสดงชื่อผู้ใช้
+            // แสดงชื่อ
             document.getElementById("username")
-                .innerText = profile.displayName;
-            }
+                .innerText =
+                profile.displayName;
+        }
 
-            initializeLIFF();
-        </script>
+        initializeLIFF();
+
+    </script>
 
 </body>
 </html>
