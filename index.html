@@ -92,10 +92,9 @@
 </head>
 
 <body>
-                <h1 style="color:red;">
-                  TEST NEW VERSION
-                </h1>
-
+              <h1 style="color:red;">
+              TEST NEW VERSION
+              </h1>
     <h1>
         🍛 ร้านตามสั่ง By ครัวหลังบ้าน
     </h1>
@@ -318,12 +317,84 @@
 
         async function checkout() {
 
-            alert("ระบบพร้อมใช้งาน 🎉");
+            if (cart.length === 0) {
+
+                alert("กรุณาเลือกอาหารก่อน");
+
+                return;
+            }
+
+            let orderMessage =
+                "🛒 ออเดอร์ใหม่\n\n";
+
+            let total = 0;
+
+            cart.forEach((item) => {
+
+                orderMessage +=
+                    `${item.name}\n`;
+
+                orderMessage +=
+                    `🌶 ${item.spicy}\n`;
+
+                orderMessage +=
+                    `🍳 ${item.toppings.join(", ")}\n`;
+
+                orderMessage +=
+                    `จำนวน ${item.quantity}\n`;
+
+                orderMessage +=
+                    `ราคา ${
+                        item.price * item.quantity
+                    } บาท\n\n`;
+
+                total +=
+                    item.price * item.quantity;
+            });
+
+            orderMessage +=
+                `💰 รวม ${total} บาท`;
+
+            try {
+
+                await fetch(
+
+                    "https://script.google.com/macros/s/AKfycbyMtB7I8sE_oxiJZmRSzCkwEuMYn2ppq-m_Qnaz6ocq4f-6AUAFWgVmOk3xlm3uHwdh/exec",
+
+                    {
+
+                        method: "POST",
+
+                        mode: "no-cors",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            message: orderMessage
+                        })
+                    }
+                );
+
+                alert("ส่งออเดอร์สำเร็จ 🎉");
+
+                cart = [];
+
+                renderCart();
+
+            } catch(error) {
+
+                console.error(error);
+
+                alert("ส่งไม่สำเร็จ");
+            }
         }
 
         async function initializeLIFF() {
-
-          console.log(profile.userId);
 
             try {
 
@@ -343,9 +414,15 @@
                 const profile =
                     await liff.getProfile();
 
+                console.log(profile);
+
+                // แสดงชื่อผู้ใช้
                 document.getElementById("username")
                     .innerText =
                     profile.displayName;
+
+                // แสดง USER ID ใน Console
+                console.log(profile.userId);
 
             } catch(error) {
 
