@@ -180,6 +180,8 @@
 
         function addToCart() {
 
+            console.log("add to cart working");
+
             let basePrice = 80;
 
             let toppings = [];
@@ -353,30 +355,7 @@
                 `💰 ราคารวม ${total} บาท`;
 
             try {
-
-                await fetch(
-
-                    "https://script.google.com/macros/s/AKfycbyMtB7I8sE_oxiJZmRSzCkwEuMYn2ppq-m_Qnaz6ocq4f-6AUAFWgVmOk3xlm3uHwdh/exec",
-
-                    {
-
-                        method: "POST",
-
-                        mode: "no-cors",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            message: orderMessage
-                        })
-                    }
-                );
-
+              
                 alert("ส่งออเดอร์เรียบร้อย 🎉");
 
                 cart = [];
@@ -421,31 +400,45 @@
 
         async function initializeLIFF() {
 
-            await liff.init({
+            try {
 
-                liffId:
-                    "2010184903-PSIDCmFU"
-            });
+                await liff.init({
 
-            // ถ้ายังไม่ login
-            if (!liff.isLoggedIn()) {
+                    liffId:
+                        "2010184903-PSIDCmFU"
+                });
 
-                liff.login();
+                // ถ้ายังไม่ได้ login
+                if (!liff.isLoggedIn()) {
+
+                    liff.login();
+
+                    return;
+                }
+
+                // ดึงข้อมูลผู้ใช้
+                const profile =
+                    await liff.getProfile();
+
+                console.log(profile);
+
+                // แสดงชื่อผู้ใช้
+                document.getElementById("username")
+                    .innerText =
+                    profile.displayName;
+
+            } catch(error) {
+
+                console.error(error);
+
+                // ถ้า LIFF พัง เว็บยังทำงานต่อได้
+                document.getElementById("username")
+                    .innerText =
+                    "Guest";
             }
-
-            // ดึงข้อมูล user
-            const profile =
-                await liff.getProfile();
-
-            console.log(profile);
-
-            // แสดงชื่อ
-            document.getElementById("username")
-                .innerText =
-                profile.displayName;
         }
 
-        initializeLIFF();
+        initializeLIFF();        
 
     </script>
 
