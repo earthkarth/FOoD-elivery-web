@@ -178,8 +178,7 @@ async function checkout() {
     try {
 
         await fetch(
-
-            "https://script.google.com/macros/s/AKfycbw-yqHsEShfr9ojHh_VBgHcqIlgudTB6lM25O1NRuXU-yS4KmlTUbhIRcKwdz95tWHVyw/exec",
+            "https://script.google.com/macros/s/AKfycbyvnhR0GAzEGZzJQtYLJ6jMAr9J3kWwMUeVR6v46FNRBTHDGh5VccT6l-UrYmL8rg10/exec",
 
             {
 
