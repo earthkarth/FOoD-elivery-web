@@ -28,6 +28,8 @@ function addToCart(foodId) {
             return item.id === food.id;
         });
 
+    console.log(food);
+
     // ถ้ามีแล้ว
     if (existingItem) {
 
@@ -46,6 +48,8 @@ function addToCart(foodId) {
             quantity: 1
         });
     }
+
+    console.log(cart);
 
     renderCart();
 }
@@ -80,10 +84,6 @@ function renderCart() {
 
                 <p>
                     🌶 ${item.spicy}
-                </p>
-
-                <p>
-                    🍳 ${item.toppings.join(", ")}
                 </p>
 
                 <p>
