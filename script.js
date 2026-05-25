@@ -138,46 +138,41 @@ function renderCart() {
         orderMessage +=
             `💰 ราคารวม ${total} บาท`;
 
-        console.log(orderMessage);
+            try {
 
-        alert(orderMessage);
+                await fetch(
 
-    try {
+                    "https://script.google.com/macros/s/AKfycbxdmMy9J1qJcMxoJYZYv1V9en2ixGxWFXaR-Z0mpocbTvUAtEhR9rKM3J7jGYa8XJcf2w/exec",
 
-        await fetch(
-            "https://script.google.com/macros/s/AKfycbyvnhR0GAzEGZzJQtYLJ6jMAr9J3kWwMUeVR6v46FNRBTHDGh5VccT6l-UrYmL8rg10/exec",
+                    {
 
-            {
+                        method: "POST",
 
-                method: "POST",
+                        headers: {
 
-                mode: "no-cors",
+                            "Content-Type":
+                                "application/json"
+                        },
 
-                headers: {
+                        body: JSON.stringify({
 
-                    "Content-Type":
-                        "application/json"
-                },
+                            message: orderMessage
+                        })
+                    }
+                );
 
-                body: JSON.stringify({
+                alert("ส่งออเดอร์เรียบร้อย 🎉");
 
-                    message: orderMessage
-                })
+                cart = [];
+
+                renderCart();
+
+            } catch(error) {
+
+                console.error(error);
+
+                alert("เกิดข้อผิดพลาด");
             }
-        );
-
-        alert("ส่งออเดอร์เรียบร้อย 🎉");
-
-        cart = [];
-
-        renderCart();
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert("เกิดข้อผิดพลาด");
-    }
 }
 
 // =====================
