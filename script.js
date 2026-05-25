@@ -12,6 +12,8 @@ let cart = [];
 
 function addToCart(foodId) {
 
+    console.log("ADD TO CART", foodId);
+    
     // หาเมนูจาก foods[]
     const food =
         foods.find((item) => {
