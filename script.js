@@ -281,7 +281,7 @@ async function initializeLIFF() {
                 `;
             });
         }
-        
-        renderFoods();
 
 initializeLIFF();
+
+renderFoods();
