@@ -214,7 +214,7 @@ async function initializeLIFF() {
 
         const response =
             await fetch(
-                "https://script.google.com/macros/s/AKfycbzHFRyN-zyFLIDAPqSBa9rLOOTDEj6ym71N7pG4LecIpc4-hZ80zptWzWQmyB786RK1Sw/exec"
+                "https://script.google.com/macros/s/AKfycbzZEoDK6YYFyMTW4asCYS4q-5XWLs7Q_wGye-1Np_zbQhIx2kBXKPIdG1lv8aP5NPxfiA/exec"
             );
 
         foods =
