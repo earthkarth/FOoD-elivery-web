@@ -220,23 +220,32 @@ async function initializeLIFF() {
             );
 
         console.log(response);
+    
+        // foods = await response.json();
+       
+        const text =
+            await response.text();
+
+        console.log(text);
 
         foods =
             await response.json();
 
         console.log(foods);
 
+        console.log(food.image);
+
         renderFoods();
     }
 
+        //  renderFoods();
+
         function renderFoods() {
 
-            console.log("renderFoods working");
-
             const foodContainer =
-                document.getElementById("food-container");
-
-            console.log(foodContainer);
+                document.getElementById(
+                    "food-container"
+                );
 
             foodContainer.innerHTML = "";
 
@@ -246,10 +255,7 @@ async function initializeLIFF() {
 
                     <div class="food-card">
 
-                        <img
-                            src="${food.image}"
-                            width="300"
-                        >
+                        <img src="${food.image}">
 
                         <h2>${food.name}</h2>
 
@@ -257,14 +263,15 @@ async function initializeLIFF() {
                             ราคา ${food.price} บาท
                         </p>
 
-                        <button onclick="addToCart(${food.id})">
+                        <button
+                            onclick="addToCart(${food.id})"
+                        >
 
                             เพิ่มลงตะกร้า
 
                         </button>
 
                     </div>
-
                 `;
             });
         }
