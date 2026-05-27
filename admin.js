@@ -50,6 +50,14 @@ function renderFoods() {
                     ${food.price} บาท
                 </p>
 
+                <button
+                    onclick="deleteFood(${food.id})"
+                >
+
+                    ลบเมนู
+
+                </button>
+
             </div>
         `;
     });
@@ -92,6 +100,26 @@ async function addFood() {
     });
 
     alert("เพิ่มเมนูแล้ว");
+
+    loadFoods();
+}
+
+async function deleteFood(id) {
+
+    await fetch(API_URL, {
+
+        method: "POST",
+
+        body:
+            new URLSearchParams({
+
+                action: "delete",
+
+                id
+            })
+    });
+
+    alert("ลบเมนูแล้ว");
 
     loadFoods();
 }
