@@ -330,6 +330,86 @@ async function initializeLIFF() {
             });
         }
 
+// หมวดหมู่
+function filterCategory(category) {
+
+    if (category === "ทั้งหมด") {
+
+        renderFoods();
+
+        return;
+    }
+
+    const filteredFoods =
+
+        foods.filter((food) =>
+
+            food.category === category
+        );
+
+    const container =
+
+        document.getElementById(
+            "food-container"
+        );
+
+    container.innerHTML = "";
+
+    filteredFoods.forEach((food) => {
+
+        container.innerHTML += `
+
+            <div class="food-card">
+
+                <img src="${food.image}">
+
+                <h2>
+                    ${food.name}
+                </h2>
+
+                <p>
+                    ${food.price} บาท
+                </p>
+
+            </div>
+
+        `;
+    });
+}
+
+function checkout() {
+
+    alert(
+        "ระบบ checkout ทำงาน"
+    );
+}
+
+async function addCategory() {
+
+    const name =
+
+        document.getElementById(
+            "category-name"
+        ).value;
+
+    await fetch(API_URL, {
+
+        method: "POST",
+
+        body:
+            new URLSearchParams({
+
+                action: "addCategory",
+
+                name
+            })
+    });
+
+    alert("เพิ่มหมวดหมู่แล้ว");
+
+    loadFoods();
+}
+
 initializeLIFF();
 
 console.log("CALL RENDER");
