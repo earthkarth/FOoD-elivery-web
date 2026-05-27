@@ -1,3 +1,6 @@
+const API_URL =
+    "https://script.google.com/macros/s/AKfycbxeIyM4jB0hAwv_tfs5DjiUOU5hnp--o6x7TQEKDDlwY0enetdKphsQuhMzjQ_zdR6ywA/exec";
+
 console.log("SCRIPT LOADED");
 
 // =====================
@@ -210,20 +213,20 @@ async function initializeLIFF() {
 
     let foods = [];
 
-async function loadFoods() {
+    async function loadFoods() {
 
-    const response =
-        await fetch(API_URL);
+        const response =
+            await fetch(API_URL);
 
-    const data =
-        await response.json();
+        const data =
+            await response.json();
 
-    foods = data;
+        foods = data;
 
-    console.log(data);
+        console.log(data);
 
-    renderFoods();
-}
+        renderFoods();
+    }
 
         //  renderFoods();
 
@@ -237,11 +240,6 @@ async function loadFoods() {
             foodContainer.innerHTML = "";
 
             foods.forEach((food) => {
-
-                if (food.status !== "ON") {
-
-                    return;
-                }
 
                 foodContainer.innerHTML += `
 
