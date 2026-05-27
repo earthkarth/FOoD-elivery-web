@@ -354,39 +354,6 @@ function filterCategory(category) {
     });
 }
 
-function checkout() {
-
-    alert(
-        "ระบบ checkout ทำงาน"
-    );
-}
-
-async function addCategory() {
-
-    const name =
-
-        document.getElementById(
-            "category-name"
-        ).value;
-
-    await fetch(API_URL, {
-
-        method: "POST",
-
-        body:
-            new URLSearchParams({
-
-                action: "addCategory",
-
-                name
-            })
-    });
-
-    alert("เพิ่มหมวดหมู่แล้ว");
-
-    loadFoods();
-}
-
 initializeLIFF();
 
 console.log("CALL RENDER");
