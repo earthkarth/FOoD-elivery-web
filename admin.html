@@ -23,6 +23,108 @@
 
 <body>
 
+    <header class="admin-header">
+
+    <h1>
+        ADMIN PANEL
+    </h1>
+
+</header>
+
+<section class="dashboard-section">
+
+    <div class="dashboard-card">
+
+        <h2>
+            จำนวนเมนู
+        </h2>
+
+        <p id="total-foods">
+            0
+        </p>
+
+    </div>
+
+    <div class="dashboard-card">
+
+        <h2>
+            ออเดอร์วันนี้
+        </h2>
+
+        <p>
+            0
+        </p>
+
+    </div>
+
+</section>
+
+<section class="add-food-section">
+
+    <h2>
+        เพิ่มเมนูอาหาร
+    </h2>
+
+    <input
+        type="text"
+        id="food-name"
+        placeholder="ชื่อเมนู"
+    >
+
+    <input
+        type="number"
+        id="food-price"
+        placeholder="ราคา"
+    >
+
+    <input
+        type="text"
+        id="food-image"
+        placeholder="ลิงก์รูป"
+    >
+
+    <input
+        type="text"
+        id="food-category"
+        placeholder="หมวดหมู่"
+    >
+
+    <button onclick="addFood()">
+
+        เพิ่มเมนู
+
+    </button>
+
+</section>
+
+<section class="menu-management">
+
+    <h2>
+        จัดการเมนู
+    </h2>
+
+    <div id="admin-food-list">
+
+    </div>
+
+</section>
+
+<section class="orders-section">
+
+    <h2>
+        Orders
+    </h2>
+
+</section>
+
+<section class="analytics-section">
+
+    <h2>
+        Analytics
+    </h2>
+
+</section>
+
     <h1>
         จัดการเมนูอาหาร
     </h1>

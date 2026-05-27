@@ -215,6 +215,8 @@ async function initializeLIFF() {
 
     let currentCategory = "ทั้งหมด";
 
+    let searchText = "";
+
     async function loadFoods() {
 
         const response =
@@ -237,6 +239,17 @@ async function initializeLIFF() {
     renderFoods();
 }
 
+    if (
+
+        !food.name
+            .toLowerCase()
+            .includes(searchText)
+
+    ) {
+
+        return;
+    }
+
         //  renderFoods();
 
         function renderFoods() {
@@ -249,6 +262,15 @@ async function initializeLIFF() {
             foodContainer.innerHTML = "";
 
             foods.forEach((food) => {
+
+                searchText =
+
+                    document
+                        .getElementById(
+                            "search-input"
+                        )
+                        .value
+                        .toLowerCase();
 
                 if (
 
