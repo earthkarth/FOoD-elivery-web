@@ -15,6 +15,8 @@ async function loadFoods() {
     foods =
         await response.json();
 
+    console.log(foods);
+
     renderFoods();
 }
 
