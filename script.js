@@ -114,72 +114,49 @@ function renderCart() {
 
     async function checkout() {
 
-        console.log(cart);
-
         if (cart.length === 0) {
 
-            alert("กรุณาเลือกอาหารก่อน");
+            alert("ยังไม่มีสินค้า");
 
             return;
         }
 
-        let orderMessage =
-            "🛒 ออเดอร์ใหม่\n\n";
+        let message =
 
-        let total = 0;
+            "🛒 ออเดอร์ใหม่\n\n";
 
         cart.forEach((item) => {
 
-            orderMessage +=
-                `${item.name}\n`;
+            message +=
 
-            orderMessage +=
-                `จำนวน: ${item.quantity}\n`;
-
-            orderMessage +=
-                `รวม: ${
-                    item.price * item.quantity
-                } บาท\n\n`;
-
-            total +=
-                item.price * item.quantity;
+                `${item.name}
+                x ${item.quantity}\n`;
         });
 
-        orderMessage +=
-            `💰 ราคารวม ${total} บาท`;
+        const total =
 
-            try {
+            cart.reduce((sum, item) =>
 
-        await fetch(
+                sum +
+                item.price * item.quantity
 
-            "https://script.google.com/macros/s/AKfycbzHFRyN-zyFLIDAPqSBa9rLOOTDEj6ym71N7pG4LecIpc4-hZ80zptWzWQmyB786RK1Sw/exec",
+            , 0);
 
-            {
+        message += `\n💰 รวม ${total} บาท`;
 
-                method: "POST",
+        if (window.liff) {
 
+            await liff.sendMessages([{
 
-                body:
-                    new URLSearchParams({
+                type: "text",
 
-                        message: orderMessage
-                    })
-            }
-        );
+                text: message
 
-                alert("ส่งออเดอร์เรียบร้อย 🎉");
+            }]);
 
-                cart = [];
-
-                renderCart();
-
-            } catch(error) {
-
-                console.error(error);
-
-                alert("เกิดข้อผิดพลาด");
-            }
-}
+            alert("ส่งออเดอร์เข้า LINE แล้ว");
+        }
+    }
 
 // =====================
 // LIFF LOGIN
