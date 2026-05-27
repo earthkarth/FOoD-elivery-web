@@ -208,33 +208,20 @@ async function initializeLIFF() {
     }
 }
 
-    const foods = [
+    let foods = [];
 
-        {
-            id: 1,
-            name: "ข้าวกะเพราหมูกรอบ",
-            category: "อาหารจานหลัก",
-            price: 80,
-            image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop"
-        },
+    async function loadFoods() {
 
-        {
-            id: 2,
-            name: "ผัดซีอิ๊ว",
-            category: "อาหารจานหลัก",
-            price: 70,
-            image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=1200&auto=format&fit=crop"
-        },
+        const response =
+            await fetch(
+                "https://script.google.com/macros/s/AKfycbzHFRyN-zyFLIDAPqSBa9rLOOTDEj6ym71N7pG4LecIpc4-hZ80zptWzWQmyB786RK1Sw/exec"
+            );
 
-        {
-            id: 3,
-            name: "ชาไทย",
-            category: "เครื่องดื่ม",
-            price: 45,
-            image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?q=80&w=1200&auto=format&fit=crop"
-        }
+        foods =
+            await response.json();
 
-    ];
+        renderFoods();
+    }
 
         function renderFoods() {
 
@@ -280,4 +267,4 @@ initializeLIFF();
 
 console.log("CALL RENDER");
 
-renderFoods();
+loadFoods();
