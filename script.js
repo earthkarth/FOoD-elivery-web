@@ -210,33 +210,20 @@ async function initializeLIFF() {
 
     let foods = [];
 
-    async function loadFoods() {
+async function loadFoods() {
 
-        console.log("LOAD FOODS");
+    const response =
+        await fetch(API_URL);
 
-        const response =
-            await fetch(
-                "https://script.google.com/macros/s/AKfycbzZEoDK6YYFyMTW4asCYS4q-5XWLs7Q_wGye-1Np_zbQhIx2kBXKPIdG1lv8aP5NPxfiA/exec"
-            );
+    const data =
+        await response.json();
 
-        console.log(response);
-    
-        // foods = await response.json();
-       
-        const text =
-            await response.text();
+    foods = data;
 
-        console.log(text);
+    console.log(data);
 
-        foods =
-            await response.json();
-
-        console.log(foods);
-
-        console.log(food.image);
-
-        renderFoods();
-    }
+    renderFoods();
+}
 
         //  renderFoods();
 
