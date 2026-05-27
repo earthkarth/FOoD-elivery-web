@@ -251,6 +251,11 @@ async function initializeLIFF() {
 
             foods.forEach((food) => {
 
+                if (food.status !== "ON") {
+
+                    return;
+                }
+
                 foodContainer.innerHTML += `
 
                     <div class="food-card">

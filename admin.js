@@ -54,6 +54,22 @@ function renderFoods() {
                     value="${food.price}"
                 >
 
+                <p>
+                    สถานะ:
+                    ${food.status}
+                </p>
+
+                <button
+                    onclick="toggleStatus(
+                        ${food.id},
+                        '${food.status}'
+                    )"
+                >
+
+                    เปลี่ยนสถานะ
+
+                </button>
+
                 <input
                     type="text"
                     id="image-${food.id}"
@@ -75,6 +91,31 @@ function renderFoods() {
                     ลบเมนู
 
                 </button>
+
+                async function toggleStatus(id, currentStatus) {
+
+                    const newStatus =
+                        currentStatus === "ON"
+                        ? "OFF"
+                        : "ON";
+
+                    await fetch(API_URL, {
+
+                        method: "POST",
+
+                        body:
+                            new URLSearchParams({
+
+                                action: "status",
+
+                                id,
+
+                                status: newStatus
+                            })
+                    });
+
+                    loadFoods();
+                }
 
             </div>
 
