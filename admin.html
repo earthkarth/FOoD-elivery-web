@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Admin Panel
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+    <h1>
+        จัดการเมนูอาหาร
+    </h1>
+
+    <div class="admin-form">
+
+        <input
+            type="text"
+            id="food-name"
+            placeholder="ชื่อเมนู"
+        >
+
+        <input
+            type="number"
+            id="food-price"
+            placeholder="ราคา"
+        >
+
+        <input
+            type="text"
+            id="food-image"
+            placeholder="ลิงก์รูป"
+        >
+
+        <button onclick="addFood()">
+
+            เพิ่มเมนู
+
+        </button>
+
+    </div>
+
+    <div id="admin-food-list"></div>
+
+    <script src="admin.js"></script>
+
+</body>
+</html>
