@@ -42,13 +42,31 @@ function renderFoods() {
                     width="200"
                 >
 
-                <h3>
-                    ${food.name}
-                </h3>
+                <input
+                    type="text"
+                    id="name-${food.id}"
+                    value="${food.name}"
+                >
 
-                <p>
-                    ${food.price} บาท
-                </p>
+                <input
+                    type="number"
+                    id="price-${food.id}"
+                    value="${food.price}"
+                >
+
+                <input
+                    type="text"
+                    id="image-${food.id}"
+                    value="${food.image}"
+                >
+
+                <button
+                    onclick="updateFood(${food.id})"
+                >
+
+                    บันทึก
+
+                </button>
 
                 <button
                     onclick="deleteFood(${food.id})"
@@ -59,6 +77,7 @@ function renderFoods() {
                 </button>
 
             </div>
+
         `;
     });
 }
@@ -104,7 +123,22 @@ async function addFood() {
     loadFoods();
 }
 
-async function deleteFood(id) {
+async function updateFood(id) {
+
+    const name =
+        document.getElementById(
+            `name-${id}`
+        ).value;
+
+    const price =
+        document.getElementById(
+            `price-${id}`
+        ).value;
+
+    const image =
+        document.getElementById(
+            `image-${id}`
+        ).value;
 
     await fetch(API_URL, {
 
@@ -113,15 +147,19 @@ async function deleteFood(id) {
         body:
             new URLSearchParams({
 
-                action: "delete",
+                action: "update",
 
-                id
+                id,
 
+                name,
+
+                price,
+
+                image
             })
-
     });
 
-    alert("ลบเมนูแล้ว");
+    alert("แก้ไขเมนูแล้ว");
 
     loadFoods();
 }
