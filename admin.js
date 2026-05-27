@@ -51,18 +51,18 @@ function renderFoods() {
                 <input
                     type="number"
                     id="price-${food.id}"
-                    value="${food.price}"
+                    value="${food.price || 0}"
                 >
 
                 <p>
                     สถานะ:
-                    ${food.status}
+                    ${food.status || "OFF"}
                 </p>
 
                 <button
                     onclick="toggleStatus(
                         ${food.id},
-                        '${food.status}'
+                        '${food.status || "OFF"}'
                     )"
                 >
 
@@ -91,31 +91,7 @@ function renderFoods() {
                     ลบเมนู
 
                 </button>
-
-                async function toggleStatus(id, currentStatus) {
-
-                    const newStatus =
-                        currentStatus === "ON"
-                        ? "OFF"
-                        : "ON";
-
-                    await fetch(API_URL, {
-
-                        method: "POST",
-
-                        body:
-                            new URLSearchParams({
-
-                                action: "status",
-
-                                id,
-
-                                status: newStatus
-                            })
-                    });
-
-                    loadFoods();
-                }
+            
 
             </div>
 
@@ -205,4 +181,49 @@ async function updateFood(id) {
     loadFoods();
 }
 
- loadFoods();
+async function deleteFood(id) {
+
+    await fetch(API_URL, {
+
+        method: "POST",
+
+        body:
+            new URLSearchParams({
+
+                action: "delete",
+
+                id
+            })
+    });
+
+    alert("ลบเมนูแล้ว");
+
+    loadFoods();
+}
+
+async function toggleStatus(id, currentStatus) {
+
+    const newStatus =
+        currentStatus === "ON"
+        ? "OFF"
+        : "ON";
+
+    await fetch(API_URL, {
+
+        method: "POST",
+
+        body:
+            new URLSearchParams({
+
+                action: "status",
+
+                id,
+
+                status: newStatus
+            })
+    });
+
+    loadFoods();
+}
+
+loadFoods();
