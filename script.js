@@ -21,7 +21,7 @@ function addToCart(foodId) {
     const food =
         foods.find((item) => {
 
-            return item.id === foodId;
+            return Number(item.id) === Number(foodId);
         });
 
     // หาเมนูเดิมใน cart
@@ -86,7 +86,7 @@ function renderCart() {
                 <h3>${item.name}</h3>
 
                 <p>
-                    🌶 ${item.spicy}
+                    ${item.spicy || ""}
                 </p>
 
                 <p>
@@ -239,16 +239,7 @@ async function initializeLIFF() {
     renderFoods();
 }
 
-    if (
 
-        !food.name
-            .toLowerCase()
-            .includes(searchText)
-
-    ) {
-
-        return;
-    }
 
         //  renderFoods();
 
@@ -261,17 +252,17 @@ async function initializeLIFF() {
 
             foodContainer.innerHTML = "";
 
+            searchText =
+                document
+                    .getElementById(
+                        "search-input"
+                    )
+                    .value
+                    .toLowerCase();
+
             foods.forEach((food) => {
 
-                searchText =
-
-                    document
-                        .getElementById(
-                            "search-input"
-                        )
-                        .value
-                        .toLowerCase();
-
+                // FILTER CATEGORY
                 if (
 
                     currentCategory !== "ทั้งหมด"
@@ -285,29 +276,50 @@ async function initializeLIFF() {
                     return;
                 }
 
+                // SEARCH
+                if (
+
+                    !food.name
+                        .toLowerCase()
+                        .includes(searchText)
+
+                ) {
+
+                    return;
+                }
+
                 foodContainer.innerHTML += `
 
                     <div class="food-card">
 
                         <img src="${food.image}">
 
-                        <h2>${food.name}</h2>
+                        <div class="food-card-content">
 
-                        <p>${food.category}</p>
+                            <h2>
+                                ${food.name}
+                            </h2>
 
-                        <p>
-                            ราคา ${food.price} บาท
-                        </p>
+                            <p>
+                                ${food.category}
+                            </p>
 
-                        <button
-                            onclick="addToCart(${food.id})"
-                        >
+                            <p>
+                                ราคา ${food.price} บาท
+                            </p>
 
-                            เพิ่มลงตะกร้า
+                            <button
+                                onclick="addToCart(${food.id})"
+                            >
 
-                        </button>
+                                เพิ่มลงตะกร้า
+
+                            </button>
+
+                        </div>
 
                     </div>
+
                 `;
             });
         }

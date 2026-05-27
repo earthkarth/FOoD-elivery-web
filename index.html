@@ -1,122 +1,7 @@
 <!DOCTYPE html>
-<html lang="th">
+            </p>
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>FOoDelivery</title>
-
-    <style>
-
-        body {
-
-            font-family: sans-serif;
-            background: #f5f5f5;
-            padding: 40px;
-        }
-
-        h1 {
-
-            color: orange;
-        }
-
-        .container {
-
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .food-card,
-        .cart {
-
-            background: white;
-
-            padding: 20px;
-
-            border-radius: 20px;
-
-            width: 320px;
-
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .food-card img {
-
-            border-radius: 12px;
-        }
-
-        button {
-
-            background: orange;
-
-            color: white;
-
-            border: none;
-
-            padding: 12px 20px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
-
-            width: 100%;
-
-            font-size: 16px;
-        }
-
-        .cart-item {
-
-            border-bottom: 1px solid #ddd;
-
-            padding: 10px 0;
-        }
-
-        .total {
-
-            font-size: 24px;
-
-            font-weight: bold;
-
-            color: green;
-
-            margin-top: 20px;
-        }
-
-    </style>
-
-</head>
-
-<body>
-
-[ Banner ]
-
-[ Search ]
-
-[ Category ]
-
-[ Food Menu Grid ]
-
-[ Floating Cart ]
-
-[ Checkout ]
-
-
-<header>
-
-    <h1>
-        FOOD STORE
-    </h1>
-
-</header>
-
-    <section class="banner">
-
-        โปรโมชั่นร้านอาหาร
+        </div>
 
     </section>
 
@@ -126,54 +11,64 @@
             type="text"
             id="search-input"
             placeholder="ค้นหาเมนู"
-            oninput="renderFoods()"
         >
 
     </section>
 
     <section class="category-section">
 
-        <button>ทั้งหมด</button>
+        <button>
+            ทั้งหมด
+        </button>
 
-        <button>อาหาร</button>
+        <button>
+            อาหาร
+        </button>
 
-        <button>เครื่องดื่ม</button>
+        <button>
+            เครื่องดื่ม
+        </button>
 
-        <button>ของหวาน</button>
+        <button>
+            ของหวาน
+        </button>
 
     </section>
 
     <section
-        id="food-container"
         class="food-grid"
+        id="food-container"
     >
 
     </section>
 
-    <section class="cart-section">
+    <aside class="cart-section">
 
-        <h2>ตะกร้า</h2>
+        <h2>
+            🛒 ตะกร้า
+        </h2>
 
         <div id="cart-items">
 
         </div>
 
-        <button>
+        <div class="total-price">
+
+            รวม 0 บาท
+
+        </div>
+
+        <button class="checkout-btn">
 
             Checkout
 
         </button>
 
-    </section>
+    </aside>
 
-    <div id="food-container"></div>
-
-    <div id="cart-items"></div>
-    
-    <!-- LIFF -->
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-    <script src="script.js?v=3"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
