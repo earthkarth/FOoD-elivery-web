@@ -28,6 +28,8 @@ async function loadFoods() {
     renderCategories();
 }
 
+console.log(data);
+
 // =====================
 // RENDER FOODS
 // =====================
