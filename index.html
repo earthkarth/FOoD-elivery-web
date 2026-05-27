@@ -1,7 +1,51 @@
 <!DOCTYPE html>
-            </p>
 
-        </div>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ครัวหลังบ้าน
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+    <header class="main-header">
+
+        <h1>
+            🍛 ครัวหลังบ้าน
+        </h1>
+
+        <p>
+
+            👋 สวัสดี
+            <span id="username">
+                Guest
+            </span>
+
+        </p>
+
+    </header>
+
+    <section class="banner">
+
+        <h2>
+            โปรเด็ดวันนี้ 🔥
+        </h2>
 
     </section>
 
@@ -11,26 +55,23 @@
             type="text"
             id="search-input"
             placeholder="ค้นหาเมนู"
+            oninput="renderFoods()"
         >
 
     </section>
 
     <section class="category-section">
 
-        <button>
+        <button onclick="filterCategory('ทั้งหมด')">
             ทั้งหมด
         </button>
 
-        <button>
+        <button onclick="filterCategory('อาหาร')">
             อาหาร
         </button>
 
-        <button>
+        <button onclick="filterCategory('เครื่องดื่ม')">
             เครื่องดื่ม
-        </button>
-
-        <button>
-            ของหวาน
         </button>
 
     </section>
@@ -54,11 +95,18 @@
 
         <div class="total-price">
 
-            รวม 0 บาท
+            รวม:
+            <span id="total-price">
+                0
+            </span>
+            บาท
 
         </div>
 
-        <button class="checkout-btn">
+        <button
+            class="checkout-btn"
+            onclick="checkout()"
+        >
 
             Checkout
 
@@ -71,4 +119,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>
