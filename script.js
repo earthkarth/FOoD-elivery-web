@@ -213,6 +213,8 @@ async function initializeLIFF() {
 
     let foods = [];
 
+    let currentCategory = "ทั้งหมด";
+
     async function loadFoods() {
 
         const response =
@@ -228,6 +230,13 @@ async function initializeLIFF() {
         renderFoods();
     }
 
+    function filterCategory(category) {
+
+    currentCategory = category;
+
+    renderFoods();
+}
+
         //  renderFoods();
 
         function renderFoods() {
@@ -241,6 +250,19 @@ async function initializeLIFF() {
 
             foods.forEach((food) => {
 
+                if (
+
+                    currentCategory !== "ทั้งหมด"
+
+                    &&
+
+                    food.category !== currentCategory
+
+                ) {
+
+                    return;
+                }
+
                 foodContainer.innerHTML += `
 
                     <div class="food-card">
@@ -248,6 +270,8 @@ async function initializeLIFF() {
                         <img src="${food.image}">
 
                         <h2>${food.name}</h2>
+
+                        <p>${food.category}</p>
 
                         <p>
                             ราคา ${food.price} บาท
