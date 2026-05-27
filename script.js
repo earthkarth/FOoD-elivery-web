@@ -169,7 +169,7 @@ async function initializeLIFF() {
         await liff.init({
 
             liffId:
-                "2010184903-PSIDCmFU"
+                "2010184903-n2TCZvo7"
         });
 
         if (!liff.isLoggedIn()) {
