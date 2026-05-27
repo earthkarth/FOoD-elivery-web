@@ -1,5 +1,5 @@
 const API_URL =
-    "https://script.google.com/macros/s/AKfycbxt9npSPQaR8vtnySTkjwHe8dJRwHwXRTFblpZm4zG-Uq7a00j3vGFijGKKLSgJHdJ4Ig/exec";
+    "https://script.googleusercontent.com/macros/s/AKfycbxt9npSPQaR8vtnySTkjwHe8dJRwHwXRTFblpZm4zG-Uq7a00j3vGFijGKKLSgJHdJ4Ig/exec";
 
 console.log("SCRIPT LOADED");
 
@@ -203,7 +203,10 @@ async function initializeLIFF() {
     async function loadFoods() {
 
         const response =
-            await fetch(API_URL);
+            await fetch(API_URL, {
+
+                method: "GET"
+            });
 
         const data =
             await response.json();
