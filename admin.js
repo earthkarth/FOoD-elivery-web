@@ -12,12 +12,20 @@ async function loadFoods() {
     const response =
         await fetch(API_URL);
 
-    foods =
+    const data =
         await response.json();
+
+    foods =
+        data.foods;
+
+    categories =
+        data.categories;
 
     console.log(foods);
 
     renderFoods();
+
+    renderCategories();
 }
 
 // =====================
@@ -104,6 +112,42 @@ function renderFoods() {
 // =====================
 // ADD FOOD
 // =====================
+
+let categories = [];
+
+function renderCategories() {
+
+    const container =
+
+        document.getElementById(
+            "category-list"
+        );
+
+    container.innerHTML = "";
+
+    categories.forEach((cat) => {
+
+        container.innerHTML += `
+
+            <div class="food-card">
+
+                <h3>
+                    ${cat.name}
+                </h3>
+
+                <button
+                    onclick="deleteCategory(${cat.id})"
+                >
+
+                    ลบ
+
+                </button>
+
+            </div>
+
+        `;
+    });
+}
 
 async function addFood() {
 

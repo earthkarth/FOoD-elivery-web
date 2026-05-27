@@ -64,6 +64,11 @@ function addToCart(foodId) {
 
 function renderCart() {
 
+    const totalPrice =
+    document.getElementById(
+        "total-price"
+    );
+
     const cartItems =
         document.getElementById("cart-items");
 
@@ -151,7 +156,6 @@ function renderCart() {
 
                 method: "POST",
 
-                mode: "no-cors",
 
                 body:
                     new URLSearchParams({
