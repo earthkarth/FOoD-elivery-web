@@ -116,7 +116,9 @@ async function deleteFood(id) {
                 action: "delete",
 
                 id
+
             })
+
     });
 
     alert("ลบเมนูแล้ว");
@@ -124,4 +126,4 @@ async function deleteFood(id) {
     loadFoods();
 }
 
-loadFoods();
+ loadFoods();
