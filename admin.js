@@ -153,6 +153,34 @@ function renderCategories() {
     });
 }
 
+async function addCategory() {
+
+    console.log("ADD CATEGORY");
+
+    const name =
+
+        document.getElementById(
+            "category-name"
+        ).value;
+
+    await fetch(API_URL, {
+
+        method: "POST",
+
+        body:
+            new URLSearchParams({
+
+                action: "addCategory",
+
+                name
+            })
+    });
+
+    alert("เพิ่มหมวดหมู่แล้ว");
+
+    loadFoods();
+}
+
 async function addFood() {
 
     const name =
