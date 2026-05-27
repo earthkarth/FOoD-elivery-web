@@ -64,16 +64,15 @@ function addToCart(foodId) {
 
 function renderCart() {
 
-    const totalPrice =
-    document.getElementById(
-        "total-price"
-    );
-
     const cartItems =
-        document.getElementById("cart-items");
+        document.getElementById(
+            "cart-items"
+        );
 
     const totalPrice =
-        document.getElementById("total-price");
+        document.getElementById(
+            "total-price"
+        );
 
     cartItems.innerHTML = "";
 
@@ -88,7 +87,9 @@ function renderCart() {
 
             <div class="cart-item">
 
-                <h3>${item.name}</h3>
+                <h3>
+                    ${item.name}
+                </h3>
 
                 <p>
                     ${item.spicy || ""}
@@ -100,6 +101,7 @@ function renderCart() {
                 </p>
 
             </div>
+
         `;
     });
 

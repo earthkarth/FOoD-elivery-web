@@ -15,20 +15,22 @@ async function loadFoods() {
     const data =
         await response.json();
 
+    console.log(data);
+
     foods =
         data.foods;
 
     categories =
         data.categories;
 
-    console.log(foods);
+        const data =
+    await response.json();
 
     renderFoods();
 
     renderCategories();
 }
 
-console.log(data);
 
 // =====================
 // RENDER FOODS
