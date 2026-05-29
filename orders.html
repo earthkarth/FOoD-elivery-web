@@ -1,63 +1,306 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Orders
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คำสั่งซื้อของฉัน</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="admin-header">
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <div class="logo-icon">🍜</div>
+    <span>ร้านอาหาร</span>
+  </div>
 
-        <h1>
-            📦 จัดการออเดอร์
-        </h1>
+  <div class="navbar-nav">
+    <a href="index.html"  class="nav-link">🏠 หน้าหลัก</a>
+    <a href="orders.html" class="nav-link active">📋 คำสั่งซื้อ</a>
+  </div>
 
-    </header>
+  <div class="navbar-user">
+    <div class="user-avatar" id="user-avatar">?</div>
+    <span class="user-name" id="user-name">กำลังโหลด…</span>
+  </div>
+</nav>
 
-    <section class="orders-wrapper">
+<!-- ── Page ── -->
+<div class="page-wrapper">
+  <div class="container" style="padding-top:28px;padding-bottom:60px">
 
-        <div class="order-card">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">📋 คำสั่งซื้อของฉัน</h1>
+        <p class="page-subtitle">ติดตามสถานะการสั่งอาหาร</p>
+      </div>
+      <button class="btn btn-ghost" onclick="loadMyOrders()">🔄 รีโหลด</button>
+    </div>
 
-            <h2>
-                Order #0001
-            </h2>
+    <!-- Filter Tabs -->
+    <div class="order-filter-tabs">
+      <button class="filter-tab active" data-status="all"       onclick="filterOrders('all')">ทั้งหมด</button>
+      <button class="filter-tab"        data-status="pending"   onclick="filterOrders('pending')">⏳ รอยืนยัน</button>
+      <button class="filter-tab"        data-status="cooking"   onclick="filterOrders('cooking')">🍳 กำลังทำ</button>
+      <button class="filter-tab"        data-status="ready"     onclick="filterOrders('ready')">🎉 พร้อมส่ง</button>
+      <button class="filter-tab"        data-status="delivered" onclick="filterOrders('delivered')">📦 ส่งแล้ว</button>
+    </div>
 
-            <p>
-                ลูกค้า: LINE USER
-            </p>
+    <!-- Orders List -->
+    <div id="orders-list"></div>
 
-            <p>
-                ข้าวกะเพรา x2
-            </p>
+  </div>
+</div>
 
-            <button>
-                ยืนยันออเดอร์
-            </button>
+<!-- ── Order Detail Modal ── -->
+<div class="modal-overlay" id="order-detail-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="od-title">รายละเอียดคำสั่งซื้อ</h2>
+      <button class="modal-close" onclick="closeOrderModal()">✕</button>
+    </div>
 
-            <button>
-                แก้ไขออเดอร์
-            </button>
+    <!-- Status Bar -->
+    <div class="order-status-bar" id="od-status-bar"></div>
 
+    <!-- Items -->
+    <div id="od-items" style="margin:20px 0;display:flex;flex-direction:column;gap:8px"></div>
+
+    <!-- Total + Info -->
+    <div style="background:var(--bg);border-radius:var(--radius-md);padding:16px;margin-bottom:16px">
+      <div class="order-item-line mb-2">
+        <span class="text-muted">ที่อยู่จัดส่ง</span>
+        <span id="od-address" style="max-width:200px;text-align:right;font-size:0.8rem"></span>
+      </div>
+      <div class="order-item-line mb-2">
+        <span class="text-muted">หมายเหตุ</span>
+        <span id="od-note" style="color:var(--text-secondary);font-size:0.8rem"></span>
+      </div>
+      <div class="order-item-line" style="border-top:1px solid var(--border);padding-top:10px">
+        <span class="font-bold">รวมทั้งหมด</span>
+        <span class="font-bold text-primary-color" id="od-total">฿0</span>
+      </div>
+    </div>
+
+    <a href="index.html" class="btn btn-primary btn-block">🍽️ สั่งอาหารอีกครั้ง</a>
+  </div>
+</div>
+
+<!-- ── Toast Container ── -->
+<div id="toast-container" class="toast-container"></div>
+
+<!-- ── Scripts ── -->
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="config.js"></script>
+<script>
+/* ── orders.js (inline) ── */
+
+let myOrders   = [];
+let userUserId = null;
+
+const STATUS_STEPS = [
+  { key: "pending",   icon: "⏳", label: "รอยืนยัน" },
+  { key: "confirmed", icon: "✅", label: "ยืนยัน" },
+  { key: "cooking",   icon: "🍳", label: "กำลังทำ" },
+  { key: "ready",     icon: "🎉", label: "พร้อมส่ง" },
+  { key: "delivered", icon: "📦", label: "ส่งแล้ว" },
+];
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await initOrdersLiff();
+  await loadMyOrders();
+});
+
+async function initOrdersLiff() {
+  try {
+    await liff.init({ liffId: CONFIG.LIFF_ID });
+
+    if (!liff.isLoggedIn()) {
+      liff.login({ redirectUri: location.href });
+      return;
+    }
+
+    const profile = await liff.getProfile();
+    userUserId = profile.userId;
+
+    const nameEl   = document.getElementById("user-name");
+    const avatarEl = document.getElementById("user-avatar");
+    if (nameEl)   nameEl.textContent = profile.displayName;
+    if (avatarEl) avatarEl.innerHTML = `<img src="${profile.pictureUrl}" alt="avatar">`;
+  } catch (err) {
+    console.warn("LIFF error:", err);
+  }
+}
+
+async function loadMyOrders() {
+  const list = document.getElementById("orders-list");
+  list.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><span>กำลังโหลด…</span></div>`;
+
+  try {
+    const url = `${CONFIG.GAS_URL}?action=getMyOrders&userId=${encodeURIComponent(userUserId || "")}`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    myOrders   = data.orders || [];
+    renderOrders(myOrders);
+  } catch (err) {
+    console.error("loadMyOrders error:", err);
+    list.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">❌</div>
+      <h3>โหลดคำสั่งซื้อไม่ได้</h3>
+      <button class="btn btn-primary mt-2" onclick="loadMyOrders()">ลองใหม่</button>
+    </div>`;
+  }
+}
+
+function renderOrders(orders) {
+  const list = document.getElementById("orders-list");
+
+  if (!orders.length) {
+    list.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">🛒</div>
+      <h3>ยังไม่มีคำสั่งซื้อ</h3>
+      <p>ลองสั่งอาหารสักอย่างสิ!</p>
+      <a href="index.html" class="btn btn-primary mt-2">🍽️ ดูเมนู</a>
+    </div>`;
+    return;
+  }
+
+  list.innerHTML = orders.map(o => {
+    let items = [];
+    try { items = JSON.parse(o.items || "[]"); } catch {}
+
+    const currentStep = STATUS_STEPS.findIndex(s => s.key === o.status);
+
+    return `
+      <div class="order-card" onclick="openOrderDetail('${o.orderId}')">
+        <div class="order-card-header">
+          <div>
+            <div class="order-id">#${o.orderId}</div>
+            <div class="order-time">${formatDate(o.timestamp)}</div>
+          </div>
+          ${getStatusBadge(o.status)}
         </div>
 
-    </section>
+        <!-- Status Bar (mini) -->
+        <div class="order-status-bar" style="margin-bottom:12px">
+          ${STATUS_STEPS.filter(s => s.key !== "confirmed").map((s, i) => {
+            const stepIdx = STATUS_STEPS.findIndex(x => x.key === s.key);
+            const isDone  = currentStep > stepIdx || o.status === "delivered";
+            const isActive = currentStep === stepIdx;
+            return `
+              <div class="status-step ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}">
+                <div class="status-dot">${s.icon}</div>
+                <div class="status-label">${s.label}</div>
+              </div>`;
+          }).join("")}
+        </div>
 
-    <script src="orders.js"></script>
+        <!-- Items preview -->
+        <div class="order-items-preview">
+          ${items.slice(0, 3).map(item =>
+            `<div class="order-item-line">
+               <span class="item-name">${item.name} × ${item.qty}</span>
+               <span class="item-sub-total">฿${(item.price * item.qty).toLocaleString()}</span>
+             </div>`
+          ).join("")}
+          ${items.length > 3 ? `<div class="text-xs text-muted">+${items.length - 3} รายการอื่น ๆ</div>` : ""}
+        </div>
 
+        <div class="order-footer">
+          <span class="order-total-label">ยอดรวม</span>
+          <span class="order-total-price">฿${Number(o.total).toLocaleString()}</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function filterOrders(status) {
+  document.querySelectorAll(".filter-tab").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.status === status);
+  });
+  const filtered = status === "all" ? myOrders : myOrders.filter(o => o.status === status);
+  renderOrders(filtered);
+}
+
+function openOrderDetail(orderId) {
+  const o = myOrders.find(x => x.orderId === orderId);
+  if (!o) return;
+
+  let items = [];
+  try { items = JSON.parse(o.items || "[]"); } catch {}
+
+  document.getElementById("od-title").textContent   = `คำสั่งซื้อ #${o.orderId}`;
+  document.getElementById("od-total").textContent   = `฿${Number(o.total).toLocaleString()}`;
+  document.getElementById("od-address").textContent = o.address || "-";
+  document.getElementById("od-note").textContent    = o.note    || "-";
+
+  // Status bar
+  const currentStep = STATUS_STEPS.findIndex(s => s.key === o.status);
+  document.getElementById("od-status-bar").innerHTML = STATUS_STEPS.map((s, i) => {
+    const isDone   = currentStep > i || o.status === "delivered";
+    const isActive = currentStep === i;
+    return `<div class="status-step ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}">
+      <div class="status-dot">${s.icon}</div>
+      <div class="status-label">${s.label}</div>
+    </div>`;
+  }).join("");
+
+  // Items
+  document.getElementById("od-items").innerHTML = items.map(item => `
+    <div class="order-item-line">
+      <span class="item-name">${item.name} × ${item.qty}</span>
+      <span class="item-sub-total font-bold">฿${(item.price * item.qty).toLocaleString()}</span>
+    </div>
+  `).join("") || "<p class='text-muted text-sm'>ไม่มีรายการ</p>";
+
+  document.getElementById("order-detail-modal").classList.add("open");
+}
+
+function closeOrderModal() {
+  document.getElementById("order-detail-modal").classList.remove("open");
+}
+
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("modal-overlay")) {
+    e.target.classList.remove("open");
+  }
+});
+
+function getStatusBadge(status) {
+  const map = {
+    pending:   ["badge-warning",  "⏳ รอยืนยัน"],
+    confirmed: ["badge-info",     "✅ ยืนยันแล้ว"],
+    cooking:   ["badge-warning",  "🍳 กำลังทำ"],
+    ready:     ["badge-success",  "🎉 พร้อมส่ง"],
+    delivered: ["badge-gray",     "📦 ส่งแล้ว"],
+    cancelled: ["badge-danger",   "❌ ยกเลิก"],
+  };
+  const [cls, label] = map[status] || ["badge-gray", status];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+function formatDate(ts) {
+  if (!ts) return "-";
+  try {
+    const d = new Date(ts);
+    return d.toLocaleDateString("th-TH", { day: "2-digit", month: "short" }) + " " +
+           d.toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" });
+  } catch { return ts; }
+}
+
+function showToast(msg, type = "info") {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  const icons = { success: "✅", error: "❌", warning: "⚠️", info: "ℹ️" };
+  toast.innerHTML = `<span>${icons[type]}</span><span>${msg}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3500);
+}
+</script>
 </body>
 </html>

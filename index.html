@@ -1,123 +1,163 @@
 <!DOCTYPE html>
-
 <html lang="th">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        ครัวหลังบ้าน
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สั่งอาหาร</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <header class="main-header">
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <div class="logo-icon">🍜</div>
+    <span id="shop-name">ร้านอาหาร</span>
+  </div>
 
-        <h1>
-            🍛 ครัวหลังบ้าน
-        </h1>
+  <div class="navbar-nav">
+    <a href="index.html"  class="nav-link active">🏠 หน้าหลัก</a>
+    <a href="orders.html" class="nav-link">📋 คำสั่งซื้อ</a>
+  </div>
 
-        <p>
+  <div class="flex items-center gap-2">
+    <button class="cart-btn" onclick="toggleCart()" title="ตะกร้าสินค้า">
+      🛒
+      <span class="cart-badge hidden" id="cart-badge">0</span>
+    </button>
+    <div class="navbar-user">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <span class="user-name" id="user-name">กำลังโหลด…</span>
+    </div>
+  </div>
+</nav>
 
-            👋 สวัสดี
-            <span id="username">
-                Guest
-            </span>
+<!-- ── Hero ── -->
+<div class="menu-hero">
+  <div class="menu-hero-content">
+    <h1 id="hero-title">สั่งอาหารออนไลน์ 🍽️</h1>
+    <p id="hero-sub">เลือกเมนูที่คุณชอบ สั่งง่าย ส่งเร็ว</p>
+  </div>
+</div>
 
-        </p>
+<!-- ── Main Content ── -->
+<div class="page-wrapper">
+  <div class="container">
 
-    </header>
+    <!-- Category Filter -->
+    <div id="category-filter" class="category-filter"></div>
 
-    <section class="banner">
+    <!-- Food Grid -->
+    <div id="food-grid" class="food-grid"></div>
 
-        <h2>
-            โปรเด็ดวันนี้ 🔥
-        </h2>
+  </div>
+</div>
 
-    </section>
+<!-- ── Cart Drawer ── -->
+<div id="cart-drawer" class="cart-drawer">
+  <div class="cart-handle" onclick="toggleCart()">
+    <div class="cart-handle-title">
+      🛒 ตะกร้าสินค้า
+      <span class="badge badge-primary" id="cart-count-badge">0 รายการ</span>
+    </div>
+    <span id="cart-toggle-icon">▲</span>
+  </div>
 
-    <section class="search-section">
+  <div id="cart-empty" class="empty-state">
+    <div class="empty-icon">🛒</div>
+    <h3>ตะกร้าว่างเปล่า</h3>
+    <p>เลือกเมนูที่คุณชอบได้เลย!</p>
+  </div>
 
-        <input
-            type="text"
-            id="search-input"
-            placeholder="ค้นหาเมนู"
-            oninput="renderFoods()"
-        >
+  <div id="cart-items" class="cart-items"></div>
 
-    </section>
+  <div id="cart-footer" class="cart-footer hidden">
+    <div class="cart-total">
+      <span>รวมทั้งหมด</span>
+      <span class="cart-total-price" id="cart-total">฿0</span>
+    </div>
+    <button class="btn btn-primary btn-lg btn-block" onclick="openCheckout()">
+      ✅ สั่งอาหาร
+    </button>
+  </div>
+</div>
 
-    <section class="category-section">
+<!-- ── Food Detail Modal ── -->
+<div class="modal-overlay" id="food-detail-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="detail-name">ชื่อเมนู</h2>
+      <button class="modal-close" onclick="closeModal('food-detail-modal')">✕</button>
+    </div>
+    <div id="detail-img" style="border-radius:var(--radius-md);overflow:hidden;margin-bottom:16px;background:var(--bg);min-height:160px;display:flex;align-items:center;justify-content:center"></div>
+    <p id="detail-desc" style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:12px;line-height:1.7"></p>
+    <div style="font-size:1.25rem;font-weight:700;color:var(--primary);margin-bottom:20px" id="detail-price">฿0</div>
+    <button class="btn btn-primary btn-block" id="detail-add-btn" onclick="">+ เพิ่มลงตะกร้า</button>
+  </div>
+</div>
 
-        <button onclick="filterCategory('ทั้งหมด')">
-            ทั้งหมด
-        </button>
+<!-- ── Checkout Modal ── -->
+<div class="modal-overlay" id="checkout-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">🛒 ยืนยันคำสั่งซื้อ</h2>
+      <button class="modal-close" onclick="closeModal('checkout-modal')">✕</button>
+    </div>
 
-        <button onclick="filterCategory('อาหาร')">
-            อาหาร
-        </button>
+    <div id="checkout-summary" style="margin-bottom:20px;display:flex;flex-direction:column;gap:8px"></div>
 
-        <button onclick="filterCategory('เครื่องดื่ม')">
-            เครื่องดื่ม
-        </button>
+    <div class="form-group">
+      <label class="form-label">📍 ที่อยู่จัดส่ง <span style="color:var(--danger)">*</span></label>
+      <textarea id="order-address" class="form-control note-field"
+                placeholder="กรอกที่อยู่จัดส่งของคุณ เช่น บ้านเลขที่, ตึก, ห้อง…"></textarea>
+    </div>
 
-    </section>
+    <div class="form-group">
+      <label class="form-label">📝 หมายเหตุ (ถ้ามี)</label>
+      <textarea id="order-note" class="form-control note-field"
+                placeholder="เช่น ไม่ใส่ผัก, เผ็ดน้อย…"></textarea>
+    </div>
 
-    <section
-        class="food-grid"
-        id="food-container"
-    >
+    <button class="btn btn-primary btn-lg btn-block" id="submit-order-btn" onclick="submitOrder()">
+      ✅ ยืนยันสั่งอาหาร
+    </button>
+  </div>
+</div>
 
-    </section>
+<!-- ── Toast Container ── -->
+<div id="toast-container" class="toast-container"></div>
 
-    <aside class="cart-section">
+<!-- ── Scripts ── -->
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
+<script>
+  // Set shop name from config
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("shop-name").textContent = CONFIG.SHOP_NAME;
+    document.getElementById("hero-title").textContent = CONFIG.SHOP_NAME + " 🍽️";
+    document.getElementById("hero-sub").textContent   = CONFIG.SHOP_SUBTITLE;
+  });
 
-        <h2>
-            🛒 ตะกร้า
-        </h2>
+  // Cart drawer toggle arrow
+  const origToggle = window.toggleCart;
+  window.toggleCart = function() {
+    origToggle();
+    const icon = document.getElementById("cart-toggle-icon");
+    if (icon) icon.textContent = cartOpen ? "▼" : "▲";
+  };
 
-        <div id="cart-items">
-
-        </div>
-
-        <div class="total-price">
-
-            รวม:
-            <span id="total-price">
-                0
-            </span>
-            บาท
-
-        </div>
-
-        <button
-            class="checkout-btn"
-            onclick="checkout()"
-        >
-
-            Checkout
-
-        </button>
-
-    </aside>
-
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
-    <script src="script.js"></script>
-
+  // Update cart count badge in handle
+  const origRender = window.renderCart;
+  window.renderCart = function() {
+    origRender();
+    const badge = document.getElementById("cart-count-badge");
+    if (badge) {
+      const total = cart.reduce((s, c) => s + c.qty, 0);
+      badge.textContent = `${total} รายการ`;
+    }
+  };
+</script>
 </body>
-
 </html>

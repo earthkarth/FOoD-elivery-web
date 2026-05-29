@@ -1,98 +1,239 @@
 <!DOCTYPE html>
-        <div class="dashboard-card">
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-            <h2>
-                ออเดอร์วันนี้
-            </h2>
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <div class="flex items-center gap-2">
+    <button class="btn btn-ghost btn-sm" onclick="toggleSidebar()" style="padding:6px 10px;font-size:1.1rem">☰</button>
+    <div class="navbar-brand">
+      <div class="logo-icon">🍜</div>
+      <span>Admin Panel</span>
+    </div>
+  </div>
 
-            <p>
-                0
-            </p>
+  <div class="flex items-center gap-2">
+    <a href="index.html" class="btn btn-ghost btn-sm">← หน้าลูกค้า</a>
+    <div class="navbar-user">
+      <div class="user-avatar" id="admin-user-avatar">A</div>
+      <span class="user-name" id="admin-user-name">Admin</span>
+    </div>
+  </div>
+</nav>
 
+<!-- ── Admin Layout ── -->
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">จัดการ</div>
+      <a class="sidebar-link active" data-tab="menu" href="#">
+        <span class="icon">🍽️</span> เมนูอาหาร
+      </a>
+      <a class="sidebar-link" data-tab="categories" href="#">
+        <span class="icon">📂</span> หมวดหมู่
+      </a>
+      <a class="sidebar-link" data-tab="orders" href="#">
+        <span class="icon">📋</span> คำสั่งซื้อ
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">ลิงก์</div>
+      <a class="sidebar-link" href="dashboard.html">
+        <span class="icon">📊</span> Dashboard
+      </a>
+      <a class="sidebar-link" href="index.html">
+        <span class="icon">🏠</span> หน้าลูกค้า
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+
+    <!-- ===== TAB: เมนูอาหาร ===== -->
+    <div class="admin-tab-content" data-tab="menu">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🍽️ จัดการเมนูอาหาร</h1>
+          <p class="page-subtitle">เพิ่ม แก้ไข และจัดการเมนูทั้งหมด</p>
         </div>
-
-    </section>
-
-    <section class="category-management">
-
-        <h2>
-            หมวดหมู่
-        </h2>
-
-        <input
-            type="text"
-            id="category-name"
-            placeholder="ชื่อหมวดหมู่"
-        >
-
-        <button onclick="addCategory()">
-
-            เพิ่มหมวดหมู่
-
-        </button>
-
-        <div id="category-list">
-
+        <div class="flex gap-2">
+          <button class="btn btn-ghost" onclick="loadAdminMenu()">🔄 รีโหลด</button>
+          <button class="btn btn-primary" onclick="openAddMenuModal()">+ เพิ่มเมนู</button>
         </div>
+      </div>
 
-    </section>
+      <!-- Search -->
+      <div class="search-bar" style="margin-bottom:20px;max-width:400px">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="ค้นหาเมนู…" oninput="searchAdminMenu(this.value)">
+      </div>
 
-    <section class="admin-form-section">
+      <!-- Menu Grid -->
+      <div id="admin-menu-grid" class="menu-admin-grid"></div>
 
-        <h2>
-            เพิ่มเมนู
-        </h2>
+    </div>
 
-        <input
-            type="text"
-            placeholder="ชื่อเมนู"
-        >
+    <!-- ===== TAB: หมวดหมู่ ===== -->
+    <div class="admin-tab-content hidden" data-tab="categories">
 
-        <input
-            type="number"
-            placeholder="ราคา"
-        >
-
-        <input
-            type="text"
-            placeholder="ลิงก์รูป"
-        >
-
-        <select>
-
-            <option>
-                อาหาร
-            </option>
-
-            <option>
-                เครื่องดื่ม
-            </option>
-
-            <option>
-                ของหวาน
-            </option>
-
-        </select>
-
-        <button>
-            เพิ่มเมนู
-        </button>
-
-    </section>
-
-    <section class="menu-management">
-
-        <h2>
-            จัดการเมนู
-        </h2>
-
-        <div id="admin-food-list">
-
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">📂 หมวดหมู่</h1>
+          <p class="page-subtitle">จัดการหมวดหมู่อาหาร</p>
         </div>
+        <button class="btn btn-primary" onclick="openAddCategoryModal()">+ เพิ่มหมวดหมู่</button>
+      </div>
 
-    </section>
+      <div id="admin-cat-list"></div>
 
-    <script src="admin.js"></script>
+    </div>
+
+    <!-- ===== TAB: คำสั่งซื้อ ===== -->
+    <div class="admin-tab-content hidden" data-tab="orders">
+
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">📋 คำสั่งซื้อ</h1>
+          <p class="page-subtitle">ดูและอัปเดตสถานะคำสั่งซื้อ</p>
+        </div>
+        <button class="btn btn-ghost" onclick="loadAdminOrders()">🔄 รีโหลด</button>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="order-filter-tabs">
+        <button class="filter-tab active" data-status="all"       onclick="filterAdminOrders('all')">ทั้งหมด</button>
+        <button class="filter-tab"        data-status="pending"   onclick="filterAdminOrders('pending')">⏳ รอยืนยัน</button>
+        <button class="filter-tab"        data-status="confirmed" onclick="filterAdminOrders('confirmed')">✅ ยืนยันแล้ว</button>
+        <button class="filter-tab"        data-status="cooking"   onclick="filterAdminOrders('cooking')">🍳 กำลังทำ</button>
+        <button class="filter-tab"        data-status="ready"     onclick="filterAdminOrders('ready')">🎉 พร้อมส่ง</button>
+        <button class="filter-tab"        data-status="delivered" onclick="filterAdminOrders('delivered')">📦 ส่งแล้ว</button>
+      </div>
+
+      <!-- Orders Table -->
+      <div class="card" style="padding:0">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>หมายเลข</th>
+                <th>ลูกค้า</th>
+                <th>เวลา</th>
+                <th>ยอดรวม</th>
+                <th>สถานะ</th>
+                <th>อัปเดต</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">เลือกแท็บ "คำสั่งซื้อ" เพื่อโหลด</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- ── MODAL: เพิ่ม/แก้ไขเมนู ── -->
+<div class="modal-overlay" id="menu-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="menu-modal-title">เพิ่มเมนูใหม่</h2>
+      <button class="modal-close" onclick="closeAdminModal('menu-modal')">✕</button>
+    </div>
+
+    <div id="menu-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">ชื่อเมนู <span style="color:var(--danger)">*</span></label>
+          <input type="text" id="menu-name" class="form-control" placeholder="เช่น ข้าวผัดหมู">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ราคา (บาท) <span style="color:var(--danger)">*</span></label>
+          <input type="number" id="menu-price" class="form-control" placeholder="50" min="0">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">หมวดหมู่</label>
+          <select id="menu-category" class="form-control">
+            <option value="">-- เลือกหมวดหมู่ --</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">สถานะ</label>
+          <select id="menu-status" class="form-control">
+            <option value="available">✅ พร้อมขาย</option>
+            <option value="unavailable">❌ หมดชั่วคราว</option>
+            <option value="hidden">👁️ ซ่อน</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">URL รูปภาพ</label>
+        <input type="url" id="menu-image" class="form-control" placeholder="https://…">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">คำอธิบาย</label>
+        <textarea id="menu-desc" class="form-control note-field" placeholder="อธิบายเมนูสั้น ๆ…"></textarea>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="save-menu-btn" onclick="saveMenuItem()">
+        💾 บันทึกเมนู
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: เพิ่มหมวดหมู่ ── -->
+<div class="modal-overlay" id="category-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">📂 เพิ่มหมวดหมู่</h2>
+      <button class="modal-close" onclick="closeAdminModal('category-modal')">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ชื่อหมวดหมู่ <span style="color:var(--danger)">*</span></label>
+      <input type="text" id="cat-name" class="form-control" placeholder="เช่น ข้าวจานเดียว">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Emoji / ไอคอน</label>
+      <input type="text" id="cat-icon" class="form-control" placeholder="🍚" maxlength="4">
+    </div>
+
+    <button class="btn btn-primary btn-block" id="save-cat-btn" onclick="saveCategory()">
+      💾 บันทึกหมวดหมู่
+    </button>
+  </div>
+</div>
+
+<!-- ── Toast Container ── -->
+<div id="toast-container" class="toast-container"></div>
+
+<!-- ── Scripts ── -->
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
 
 </body>
 </html>
